@@ -5,8 +5,11 @@ import numpy as np
 df = pd.read_csv('data/cleaned/atus_sleep_work_active.csv')
 
 # Create derived variables
+# Structural Work Load (capacity_proxy): the share of waking time already claimed
+# by structurally imposed demands — work AND the commute it requires — before any
+# recovery can happen.
 df['waking_hours'] = 24 - df['sleep_hours']
-df['capacity_proxy'] = df['work_hours'] / df['waking_hours']
+df['capacity_proxy'] = (df['work_hours'] + df['commute_hours']) / df['waking_hours']
 df['sleep_threshold_indicator'] = (df['sleep_hours'] < 7).astype(int)
 
 # Drop invalid rows
